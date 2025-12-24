@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Let God Pick</title>
+
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #eef2ff, #f8fafc);
+      --card-bg: #ffffff;
+      --text: #111827;
+      --muted: #374151;
+      --hover: #f1f5f9;
+      --shadow: 0 25px 50px rgba(0,0,0,0.12);
+    }
+
+    body.dark {
+      --bg: linear-gradient(135deg, #0b0f1a, #02040a);
+      --card-bg: #0f172a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --hover: #1f2933;
+      --shadow: 0 30px 60px rgba(0,0,0,0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ---------- DICE SCREEN ---------- */
+    .center-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .dice {
+      width: 160px;
+      height: 160px;
+      background: var(--card-bg);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      font-size: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .dice:hover { transform: translateY(-6px); }
+    .dice:active { transform: scale(0.95); }
+
+    .dice-text {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    /* ---------- CONTENT ---------- */
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--muted);
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: pop 0.25s ease-out;
+      color: var(--text);
+    }
+
+    .panel h2 {
+      font-size: 28px;
+    }
+
+    .panel a {
+      text-decoration: none;
+      font-size: 18px;
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+    }
+
+    .panel a:hover {
+      background: var(--hover);
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* ---------- CONTROLS ---------- */
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .left-controls {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+    }
+
+    .control-btn {
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: none;
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      text-decoration: none;
+      transition: transform 0.12s ease;
+    }
+
+    .control-btn:hover { transform: translateY(-3px); }
+    .control-btn:active { transform: scale(0.95); }
+  </style>
+</head>
+
+<body class="dark">
+
+  <!-- DICE SCREEN -->
+  <div id="dice-screen" class="center-screen">
+    <div id="dice" class="dice">🎲</div>
+    <div class="dice-text">let god pick.</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content" class="container hidden">
+    <div id="timer" class="timer"></div>
+
+    <div id="box-1" class="panel">
+      <h2>Frontend</h2>
+      <a href="https://youtu.be/G3e-cpL7ofc" target="_blank">HTML & CSS</a>
+      <a href="https://youtu.be/EerdGm-ehJQ" target="_blank">JavaScript</a>
+      <a href="https://t.me/c/2248846563/3" target="_blank">Next Step.</a>
+    </div>
+
+    <div id="box-2" class="panel">
+      <h2>Backend</h2>
+      <a href="https://t.me/c/2248846563/3" target="_blank">Everything Here.</a>
+    </div>
+
+    <div id="box-3" class="panel">
+      <h2>DSA</h2>
+      <a href="https://youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz" target="_blank">Lectures</a>
+      <a href="https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" target="_blank">Question Sheet</a>
+    </div>
+
+    <div id="box-4" class="panel">
+      <h2>Core Subjects</h2>
+      <a href="https://youtube.com/playlist?list=PLDzeHZWIZsTpukecmA2p5rhHM14bl2dHU" target="_blank">DBMS</a>
+      <a href="https://takeuforward.org/dbms/most-asked-dbms-interview-questions" target="_blank">DBMS Qs</a>
+      <a href="https://youtube.com/playlist?list=PLDzeHZWIZsTr3nwuTegHLa2qlI81QweYG" target="_blank">OS</a>
+      <a href="https://takeuforward.org/operating-system/most-asked-operating-system-interview-questions" target="_blank">OS Qs</a>
+      <a href="https://youtu.be/IPvYjXCsTg8" target="_blank">CN</a>
+    </div>
+  </div>
+
+  <!-- LEFT CONTROL -->
+  <div class="left-controls">
+    <button id="total-time-btn" class="control-btn">
+      Total time
+    </button>
+  </div>
+
+  <!-- RIGHT CONTROLS -->
+  <div class="controls">
+    <a href="https://chat.openai.com" target="_blank" class="control-btn">ChatGPT</a>
+    <button id="theme-toggle" class="control-btn">☀️</button>
+  </div>
+
+  <script>
+    const dice = document.getElementById("dice");
+    const diceScreen = document.getElementById("dice-screen");
+    const content = document.getElementById("content");
+    const timerEl = document.getElementById("timer");
+    const themeToggle = document.getElementById("theme-toggle");
+    const totalTimeBtn = document.getElementById("total-time-btn");
+
+    let availableNumbers = [1, 2, 3, 4];
+    let diceLocked = false;
+    let countdownInterval = null;
+
+    let totalHours = Number(localStorage.getItem("total_hours")) || 0;
+    let showingTotal = false;
+
+    dice.addEventListener("click", () => {
+      if (diceLocked || availableNumbers.length === 0) return;
+
+      diceLocked = true;
+      dice.style.pointerEvents = "none";
+
+      const index = Math.floor(Math.random() * availableNumbers.length);
+      const roll = availableNumbers[index];
+      availableNumbers.splice(index, 1);
+
+      dice.textContent = roll;
+
+      setTimeout(() => {
+        diceScreen.classList.add("hidden");
+        content.classList.remove("hidden");
+
+        for (let i = 1; i <= 4; i++) {
+          const box = document.getElementById(`box-${i}`);
+          box.style.display = i === roll ? "flex" : "none";
+        }
+
+        startTimer(3 * 60 * 60);
+      }, 400);
+    });
+
+    function startTimer(seconds) {
+      let remaining = seconds;
+      updateTimer(remaining);
+
+      countdownInterval = setInterval(() => {
+        remaining--;
+        updateTimer(remaining);
+
+        if (remaining <= 0) {
+          clearInterval(countdownInterval);
+          totalHours += 3;
+          localStorage.setItem("total_hours", totalHours);
+          resetToDice();
+        }
+      }, 1000);
+    }
+
+    function updateTimer(sec) {
+      const h = String(Math.floor(sec / 3600)).padStart(2, "0");
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
+      const s = String(sec % 60).padStart(2, "0");
+      timerEl.textContent = `Time remaining: ${h}:${m}:${s}`;
+    }
+
+    function resetToDice() {
+      content.classList.add("hidden");
+      diceScreen.classList.remove("hidden");
+      dice.textContent = "🎲";
+      dice.style.pointerEvents = "auto";
+      diceLocked = false;
+    }
+
+    totalTimeBtn.addEventListener("click", () => {
+      showingTotal = !showingTotal;
+      totalTimeBtn.textContent = showingTotal
+        ? `Total time: ${totalHours} hours`
+        : "Total time";
+    });
+
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      themeToggle.textContent =
+        document.body.classList.contains("dark") ? "☀️" : "🌙";
+    });
+  </script>
+
+</body>
+</html>
