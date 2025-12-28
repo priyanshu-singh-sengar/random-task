@@ -1,332 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Let God Pick</title>
+<meta charset="UTF-8" />
+<title>Let God Pick</title>
 
-  <style>
-    :root {
-      --bg: linear-gradient(135deg, #eef2ff, #f8fafc);
-      --card-bg: #ffffff;
-      --text: #111827;
-      --muted: #374151;
-      --hover: #f1f5f9;
-      --shadow: 0 18px 40px rgba(0,0,0,0.12);
-    }
+<style>
+:root {
+  --bg: linear-gradient(135deg, #eef2ff, #f8fafc);
+  --card-bg: #ffffff;
+  --text: #111827;
+  --muted: #374151;
+  --hover: #f1f5f9;
+  --shadow: 0 18px 40px rgba(0,0,0,0.12);
+}
+body.dark {
+  --bg: linear-gradient(135deg, #0b0f1a, #02040a);
+  --card-bg: #0f172a;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --hover: #1f2933;
+  --shadow: 0 22px 48px rgba(0,0,0,0.65);
+}
+* { box-sizing: border-box; font-family: system-ui; }
+body {
+  margin: 0; height: 100vh; background: var(--bg);
+  display: flex; justify-content: center; align-items: center;
+  overflow: hidden;
+}
+.stage { width: 86vw; max-width: 820px; }
 
-    body.dark {
-      --bg: linear-gradient(135deg, #0b0f1a, #02040a);
-      --card-bg: #0f172a;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --hover: #1f2933;
-      --shadow: 0 22px 48px rgba(0,0,0,0.65);
-    }
+.center-screen { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.dice {
+  width: 190px; height: 190px; background: var(--card-bg);
+  border-radius: 28px; box-shadow: var(--shadow);
+  font-size: 92px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text); transition: transform .12s ease;
+}
+.dice:hover { transform: translateY(-6px); }
+.dice:active { transform: scale(.95); }
+.dice-text { font-size: 26px; font-weight: 600; color: var(--muted); }
 
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-    }
+.container { display: flex; flex-direction: column; gap: 18px; }
+.timer { text-align: center; font-size: 24px; font-weight: 600; color: var(--muted); }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: var(--bg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+.section { display: flex; flex-direction: column; gap: 2px; }
+.section-head {
+  background: var(--card-bg); box-shadow: var(--shadow);
+  padding: 16px 22px; font-size: 28px; font-weight: 700;
+  color: #ffffff; border-radius: 12px;
+}
+.section-body {
+  background: var(--card-bg); box-shadow: var(--shadow);
+  padding: 22px 26px; border-radius: 12px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.section-body a {
+  text-decoration: none; font-size: 20px;
+  color: var(--text); padding: 10px 14px; border-radius: 10px;
+}
+.section-body a:hover { background: var(--hover); }
 
-    /* ===== STAGE ===== */
-    .stage {
-      width: 86vw;
-      max-width: 820px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.hidden { display: none; }
 
-    /* ===== DICE ===== */
-    .center-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-    }
+.left-controls { position: fixed; bottom: 20px; left: 20px; display: flex; gap: 10px; }
+.controls { position: fixed; bottom: 20px; right: 20px; display: flex; gap: 10px; }
+.control-btn {
+  height: 42px; padding: 0 16px; border-radius: 10px; border: none;
+  background: var(--card-bg); box-shadow: var(--shadow);
+  color: var(--text); font-weight: 600; cursor: pointer;
+  transition: transform .12s ease;
+}
+.control-btn:hover { transform: translateY(-3px); }
+.control-btn:active { transform: scale(.95); }
 
-    .dice {
-      width: 190px;
-      height: 190px;
-      background: var(--card-bg);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      font-size: 92px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--text);
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
-    }
-
-    .dice:hover { transform: translateY(-6px); }
-    .dice:active { transform: scale(0.95); }
-
-    .dice-text {
-      font-size: 26px;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    /* ===== CONTENT ===== */
-    .container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .timer {
-      text-align: center;
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    /* ===== SECTION ===== */
-    .section {
-      display: flex;
-      flex-direction: column;
-      gap: 2px; /* 2px line gap */
-    }
-
-    /* Heading box */
-    .section-head {
-      background: var(--card-bg);
-      box-shadow: var(--shadow);
-      padding: 16px 22px;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text);
-      border-radius: 12px;
-    }
-
-    /* Content box */
-    .section-body {
-      background: var(--card-bg);
-      box-shadow: var(--shadow);
-      padding: 22px 26px;
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      animation: pop 0.25s ease-out;
-    }
-
-    .section-body a {
-      text-decoration: none;
-      font-size: 20px;
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 10px;
-    }
-
-    .section-body a:hover {
-      background: var(--hover);
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0.94); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .hidden { display: none; }
-
-    /* ===== CONTROLS ===== */
-    .controls {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .left-controls {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-    }
-
-    .control-btn {
-      height: 42px;
-      padding: 0 16px;
-      border-radius: 10px;
-      border: none;
-      background: var(--card-bg);
-      box-shadow: var(--shadow);
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      text-decoration: none;
-      transition: transform 0.12s ease;
-    }
-
-    .control-btn:hover { transform: translateY(-3px); }
-    .control-btn:active { transform: scale(0.95); }
-  </style>
+.core-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.core-row a.topic {
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+.core-row a.topic:hover { background: var(--hover); }
+.core-btn {
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  height: auto;
+}
+</style>
 </head>
 
 <body class="dark">
 
-  <div class="stage">
+<div class="stage">
 
-    <!-- DICE -->
-    <div id="dice-screen" class="center-screen">
-      <div id="dice" class="dice">🎲</div>
-      <div class="dice-text">let god pick.</div>
-    </div>
+  <div id="dice-screen" class="center-screen">
+    <div id="dice" class="dice">🎲</div>
+    <div class="dice-text">let god pick.</div>
+  </div>
 
-    <!-- CONTENT -->
-    <div id="content" class="container hidden">
-      <div id="timer" class="timer"></div>
+  <div id="content" class="container hidden">
+    <div id="timer" class="timer"></div>
 
-      <div id="box-1" class="section">
-        <div class="section-head">Frontend</div>
-        <div class="section-body">
-          <a href="https://youtu.be/G3e-cpL7ofc" target="_blank">HTML & CSS</a>
-          <a href="https://youtu.be/EerdGm-ehJQ" target="_blank">JavaScript</a>
-          <a href="https://t.me/c/2248846563/3" target="_blank">Next Step</a>
-        </div>
-      </div>
-
-      <div id="box-2" class="section">
-        <div class="section-head">Backend</div>
-        <div class="section-body">
-          <a href="https://t.me/c/2248846563/3" target="_blank">Everything Here.</a>
-        </div>
-      </div>
-
-      <div id="box-3" class="section">
-        <div class="section-head">DSA</div>
-        <div class="section-body">
-          <a href="https://youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz" target="_blank">Lectures</a>
-          <a href="https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" target="_blank">Question Sheet</a>
-        </div>
-      </div>
-
-      <div id="box-4" class="section">
-        <div class="section-head">Core Subjects</div>
-        <div class="section-body">
-          <a href="https://youtube.com/playlist?list=PLDzeHZWIZsTpukecmA2p5rhHM14bl2dHU" target="_blank">DBMS</a>
-          <a href="https://takeuforward.org/dbms/most-asked-dbms-interview-questions" target="_blank">DBMS Qs</a>
-          <a href="https://youtube.com/playlist?list=PLDzeHZWIZsTr3nwuTegHLa2qlI81QweYG" target="_blank">OS</a>
-          <a href="https://takeuforward.org/operating-system/most-asked-operating-system-interview-questions" target="_blank">OS Qs</a>
-          <a href="https://youtu.be/IPvYjXCsTg8" target="_blank">CN</a>
-        </div>
+    <div class="section" id="task-1">
+      <div class="section-head">Frontend</div>
+      <div class="section-body">
+        <a href="https://youtu.be/G3e-cpL7ofc" target="_blank">HTML & CSS</a>
+        <a href="https://youtu.be/EerdGm-ehJQ" target="_blank">JavaScript</a>
+        <a href="https://t.me/c/2248846563/3" target="_blank">Next Step</a>
       </div>
     </div>
 
+    <div class="section" id="task-2">
+      <div class="section-head">Backend</div>
+      <div class="section-body">
+        <a href="https://t.me/c/2248846563/3" target="_blank">Everything Here.</a>
+      </div>
+    </div>
+
+    <div class="section" id="task-3">
+      <div class="section-head">DSA</div>
+      <div class="section-body">
+        <a href="https://youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz" target="_blank">Lectures</a>
+        <a href="https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" target="_blank">Question Sheet</a>
+      </div>
+    </div>
+
+    <div class="section" id="task-4">
+      <div class="section-head">Core Subjects</div>
+      <div class="section-body">
+
+        <div class="core-row">
+          <a class="topic" href="https://youtube.com/playlist?list=PLDzeHZWIZsTpukecmA2p5rhHM14bl2dHU" target="_blank">DBMS</a>
+          <a class="control-btn core-btn" href="https://takeuforward.org/dbms/most-asked-dbms-interview-questions" target="_blank">Questions</a>
+        </div>
+
+        <div class="core-row">
+          <a class="topic" href="https://youtube.com/playlist?list=PLDzeHZWIZsTr3nwuTegHLa2qlI81QweYG" target="_blank">OS</a>
+          <a class="control-btn core-btn" href="https://takeuforward.org/operating-system/most-asked-operating-system-interview-questions" target="_blank">Questions</a>
+        </div>
+
+        <div class="core-row">
+          <a class="topic" href="https://youtu.be/IPvYjXCsTg8" target="_blank">CN</a>
+          <a class="control-btn core-btn" href="https://takeuforward.org/computer-network/most-asked-computer-networks-interview-questions" target="_blank">Questions</a>
+        </div>
+
+        <div class="core-row">
+          <a class="topic" href="https://t.me/c/2248846563/3" target="_blank">System Design</a>
+          <a class="control-btn core-btn" href="https://takeuforward.org/system-design/complete-system-design-roadmap-with-videos-for-sdes" target="_blank">Questions</a>
+        </div>
+
+      </div>
+    </div>
   </div>
 
-  <!-- LEFT -->
-  <div class="left-controls">
-    <button id="total-time-btn" class="control-btn">Total time</button>
+  <div id="rest-screen" class="center-screen hidden">
+    <div id="rest-timer" class="dice-text">00:00:00</div>
+    <div id="stop-rest" class="dice">⏹</div>
+    <div class="dice-text">rest time</div>
   </div>
 
-  <!-- RIGHT -->
-  <div class="controls">
-    <a href="https://chat.openai.com" target="_blank" class="control-btn">ChatGPT</a>
-    <button id="theme-toggle" class="control-btn">☀️</button>
+  <div id="done-screen" class="center-screen hidden">
+    <div class="dice-text">🎉 All tasks completed</div>
+    <div id="reset-day" class="dice">↻</div>
+    <div class="dice-text">reset day</div>
   </div>
 
-  <script>
-    const dice = document.getElementById("dice");
-    const diceScreen = document.getElementById("dice-screen");
-    const content = document.getElementById("content");
-    const timerEl = document.getElementById("timer");
-    const themeToggle = document.getElementById("theme-toggle");
-    const totalTimeBtn = document.getElementById("total-time-btn");
+</div>
 
-    let availableNumbers = [1,2,3,4];
-    let diceLocked = false;
-    let totalHours = Number(localStorage.getItem("total_hours")) || 0;
-    let showingTotal = false;
+<div class="left-controls">
+  <button id="total-btn" class="control-btn">Total time</button>
+  <button id="rest-btn" class="control-btn">Rest time</button>
+  <button id="reset-time-btn" class="control-btn">Reset times</button>
+</div>
 
-    dice.addEventListener("click", () => {
-      if (diceLocked) return;
-      diceLocked = true;
-      dice.style.pointerEvents = "none";
+<div class="controls">
+  <button id="theme-toggle" class="control-btn">☀️</button>
+</div>
 
-      const roll = availableNumbers.splice(
-        Math.floor(Math.random() * availableNumbers.length), 1
-      )[0];
+<script>
+const dice = document.getElementById("dice");
+const diceScreen = document.getElementById("dice-screen");
+const content = document.getElementById("content");
+const timer = document.getElementById("timer");
 
-      dice.textContent = roll;
+const restScreen = document.getElementById("rest-screen");
+const restTimer = document.getElementById("rest-timer");
+const stopRest = document.getElementById("stop-rest");
 
-      setTimeout(() => {
-        diceScreen.classList.add("hidden");
-        content.classList.remove("hidden");
+const doneScreen = document.getElementById("done-screen");
+const resetDay = document.getElementById("reset-day");
 
-        for (let i = 1; i <= 4; i++) {
-          document.getElementById(`box-${i}`).style.display =
-            i === roll ? "flex" : "none";
-        }
+const totalBtn = document.getElementById("total-btn");
+const restBtn = document.getElementById("rest-btn");
+const resetTimeBtn = document.getElementById("reset-time-btn");
+const themeToggle = document.getElementById("theme-toggle");
 
-        startTimer(3 * 60 * 60);
-      }, 400);
-    });
+let stored = JSON.parse(localStorage.getItem("remaining_tasks"));
+let remainingTasks = Array.isArray(stored) && stored.length ? stored : [1,2,3,4];
 
-    function startTimer(sec) {
-      let r = sec;
-      updateTimer(r);
+let totalWorkSeconds = Number(localStorage.getItem("total_work_seconds")) || 0;
+let totalRestSeconds = Number(localStorage.getItem("total_rest_seconds")) || 0;
 
-      const interval = setInterval(() => {
-        r--;
-        updateTimer(r);
-        if (r <= 0) {
-          clearInterval(interval);
-          totalHours += 3;
-          localStorage.setItem("total_hours", totalHours);
-          reset();
-        }
-      }, 1000);
+let restSeconds = 0;
+let workInterval, restInterval;
+
+dice.onclick = () => {
+  if (!remainingTasks.length) return;
+  const idx = Math.floor(Math.random() * remainingTasks.length);
+  const task = remainingTasks.splice(idx, 1)[0];
+  localStorage.setItem("remaining_tasks", JSON.stringify(remainingTasks));
+
+  diceScreen.classList.add("hidden");
+  content.classList.remove("hidden");
+
+  document.querySelectorAll(".section").forEach(s => s.classList.add("hidden"));
+  document.getElementById(`task-${task}`).classList.remove("hidden");
+
+  startWork(1);
+};
+
+function startWork(sec) {
+  let r = sec;
+  updateTimer(r);
+  workInterval = setInterval(() => {
+    r--;
+    updateTimer(r);
+    if (r <= 0) {
+      clearInterval(workInterval);
+      totalWorkSeconds += sec;
+      localStorage.setItem("total_work_seconds", totalWorkSeconds);
+      startRest();
     }
+  }, 1000);
+}
 
-    function updateTimer(sec) {
-      const h = String(Math.floor(sec/3600)).padStart(2,"0");
-      const m = String(Math.floor(sec%3600/60)).padStart(2,"0");
-      const s = String(sec%60).padStart(2,"0");
-      timerEl.textContent = `Time remaining: ${h}:${m}:${s}`;
-    }
+function updateTimer(sec) {
+  timer.textContent = `Time remaining: ${fmt(sec)}`;
+}
 
-    function reset() {
-      content.classList.add("hidden");
-      diceScreen.classList.remove("hidden");
-      dice.textContent = "🎲";
-      dice.style.pointerEvents = "auto";
-      diceLocked = false;
-    }
+function startRest() {
+  content.classList.add("hidden");
+  restScreen.classList.remove("hidden");
+  restSeconds = 0;
+  restTimer.textContent = "00:00:00";
+  restInterval = setInterval(() => {
+    restSeconds++;
+    restTimer.textContent = fmt(restSeconds);
+  }, 1000);
+}
 
-    totalTimeBtn.addEventListener("click", () => {
-      showingTotal = !showingTotal;
-      totalTimeBtn.textContent = showingTotal
-        ? `Total time: ${totalHours} hours`
-        : "Total time";
-    });
+stopRest.onclick = () => {
+  clearInterval(restInterval);
+  totalRestSeconds += restSeconds;
+  localStorage.setItem("total_rest_seconds", totalRestSeconds);
+  restScreen.classList.add("hidden");
+  remainingTasks.length ? diceScreen.classList.remove("hidden") : doneScreen.classList.remove("hidden");
+};
 
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-      themeToggle.textContent =
-        document.body.classList.contains("dark") ? "☀️" : "🌙";
-    });
-  </script>
+resetDay.onclick = () => {
+  remainingTasks = [1,2,3,4];
+  localStorage.removeItem("remaining_tasks");
+  doneScreen.classList.add("hidden");
+  diceScreen.classList.remove("hidden");
+};
+
+totalBtn.onclick = () =>
+  totalBtn.textContent =
+    totalBtn.textContent === "Total time" ? `Total time: ${fmt(totalWorkSeconds)}` : "Total time";
+
+restBtn.onclick = () =>
+  restBtn.textContent =
+    restBtn.textContent === "Rest time" ? `Rest time: ${fmt(totalRestSeconds)}` : "Rest time";
+
+resetTimeBtn.onclick = () => {
+  totalWorkSeconds = 0;
+  totalRestSeconds = 0;
+  localStorage.setItem("total_work_seconds", 0);
+  localStorage.setItem("total_rest_seconds", 0);
+};
+
+themeToggle.onclick = () => document.body.classList.toggle("dark");
+
+function fmt(sec) {
+  const h = String(Math.floor(sec / 3600)).padStart(2,"0");
+  const m = String(Math.floor((sec % 3600) / 60)).padStart(2,"0");
+  const s = String(sec % 60).padStart(2,"0");
+  return `${h}:${m}:${s}`;
+}
+</script>
 
 </body>
 </html>
