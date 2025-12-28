@@ -220,7 +220,7 @@ dice.onclick = () => {
   document.querySelectorAll(".section").forEach(s => s.classList.add("hidden"));
   document.getElementById(`task-${task}`).classList.remove("hidden");
 
-  startWork(1);
+  startWork(3 * 60 * 60);
 };
 
 function startWork(sec) {
